@@ -1,0 +1,93 @@
+---
+title: "Task 4"
+author: "Chris Gates"
+date: "January 30, 2017"
+output: html_document
+---
+Begin Task 4
+Loading in ggplot2 and determining how many rows is in the diamonds data set in ggplot2
+```{r}
+library(ggplot2)
+nrow(diamonds)
+```
+
+diamonds has 53,940 rows
+
+```{r}
+set.seed(1410)
+dsmall <- diamonds[sample(nrow(diamonds), 100), ]
+```
+
+The set seed function will help to reuse the same set of random variables.
+We need to declare set.seed before using the sample function in the next line.
+dsmall is a random sampling of 100 rows of the 53,940 rows in the diamonds data set.
+
+```{r}
+plot1 <- ggplot(dsmall, aes(x = x, y = y, colour=z)) +
+  geom_point() +
+  facet_wrap(~cut)
+print(plot1)
+```
+
+Make a series of scatter plots of x and y faceted by cut, z is added as an additional variable and is represented by color.
+
+```{r}
+plot2 <- ggplot(dsmall, aes(x = carat, y = price, color = cut)) +
+geom_point() +
+geom_smooth(method=lm,
+            se=FALSE)
+print(plot2)
+```
+
+A scatterplot of price vs carat, colored by cut and smoothed using the "lm" method (linear regression) and without standard error bars
+
+```{r}
+plot3 <- ggplot(dsmall, aes(carat, color = clarity)) +
+  geom_density() +
+  facet_wrap(~clarity)
+print(plot3)
+```
+
+Density plot of carat, faceted and colored by clarity.
+
+```{r}
+plot4 <- ggplot(dsmall, aes(x = cut, y = price)) +
+  geom_boxplot()
+print(plot4)
+```
+
+A boxplot of price as a function of cut.
+
+```{r}
+plot5 <- ggplot(dsmall, aes(x = x, y = y, color)) +
+  geom_point(colour = "red") +
+  geom_smooth(method = lm, color = "blue", linetype = 2, se=FALSE) +
+  coord_fixed() +
+  xlab("x, in mm") +
+  ylab("y, in mm")
+print(plot5)
+```
+
+Scatterplot of y versus x, smoothed using linear regression line "lm" method.
+Regression line is colored blue and made to be a dashed line.
+Data points are colored red.
+X and Y axis titles were changed to represent scale.
+
+```{r}
+cadata <- readxl::read_excel("C:/Users/Chris/Desktop/WInter/Wetting Angle Data/CM Data/CM-S1-1A_2017-01-08_05-21-56-PM.xlsx", sheet=1, col_names=TRUE)
+cadata <- data.frame(cadata)
+CAM <- data.frame(CA=c(cadata$Var.6), Time=c(cadata$Var.10))
+CAM <- CAM[!is.na(as.numeric(as.character(CAM$CA))), ]
+CAM <- data.frame(CAM)
+CAM$CA=as.numeric(levels(CAM$CA))[CAM$CA]
+CAM$Time=as.numeric(levels(CAM$Time))[CAM$Time]
+
+CAplot <- ggplot(CAM, aes(Time, CA)) +
+  geom_point() +
+  scale_y_continuous(limits=c(50, 75)) +
+  scale_x_continuous(limits=c(0, 100))
+
+CAplot <- CAplot + geom_smooth(method=lm)
+print(CAplot)
+```
+
