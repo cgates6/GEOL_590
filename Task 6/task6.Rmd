@@ -1,6 +1,9 @@
 ---
-title: "Contact Angle Analysis"
-output: html_notebook
+title: "Task6"
+author: "Chris Gates"
+date: "February 15, 2017"
+output:
+  html_document: default
 ---
 ```{r}
 library(ggplot2)
@@ -18,7 +21,6 @@ Step 1- This script first imports the raw data from excel files which contain th
 ```{r}
 #Determination of Contact Angle from Multiple Regression of Diameter vs Time and Multiple Regression of Contact Angle vs Time#
 #set working directory to work on EXCEL files#
-setwd(dir="C:/Users/Chris/Desktop/Contact_Angle_FINAL/MR")
 
 #Pull the data from the desktop#
 cadata <- readxl::read_excel("MR-S2-2D-FINAL.xlsx")
